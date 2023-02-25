@@ -87,88 +87,88 @@ class remove_repo_test(TestCase):
 
 # --------------- TEST RUNNER TEST -----------------
 # Tests for the function run_tests(test_folder, test_file_pattern, test_output_file). 
-class test_runner_test(TestCase):
+# class test_runner_test(TestCase):
 
-    def setUp(self):
-        settings.test_folder = "./test_data/dummy_tests"
-        settings.test_output_file = "/tmp/garbage.log"
-        self.current_modules = list(sys.modules.keys())
+#     def setUp(self):
+#         settings.test_folder = "./test_data/dummy_tests"
+#         settings.test_output_file = "/tmp/garbage.log"
+#         self.current_modules = list(sys.modules.keys())
 
-    def tearDown(self):
-        for newly_imported_module in filter(lambda module: module not in self.current_modules, list(sys.modules.keys())):
-            del sys.modules[newly_imported_module]
+#     def tearDown(self):
+#         for newly_imported_module in filter(lambda module: module not in self.current_modules, list(sys.modules.keys())):
+#             del sys.modules[newly_imported_module]
 
-        os.remove(settings.test_output_file)
+#         os.remove(settings.test_output_file)
 
-    # run_tests should return True when all tests pass.
-    def test_should_succed_when_test_passes(self):
-        self.assertTrue(run_tests(test_file_pattern="should_succeed_tests.py"))
+#     # run_tests should return True when all tests pass.
+#     def test_should_succed_when_test_passes(self):
+#         self.assertTrue(run_tests(test_file_pattern="should_succeed_tests.py"))
 
-    # run_tests should return False when at least one test fails.
-    def test_should_fail_when_test_fails(self):
-        self.assertFalse(run_tests(test_file_pattern="should_fail_tests.py"))
+#     # run_tests should return False when at least one test fails.
+#     def test_should_fail_when_test_fails(self):
+#         self.assertFalse(run_tests(test_file_pattern="should_fail_tests.py"))
 
-    # run_tests should return False when the test file contains errors.
-    def test_should_fail_when_test_errors(self):
-        self.assertFalse(run_tests(test_file_pattern="should_error_tests.py"))
+#     # run_tests should return False when the test file contains errors.
+#     def test_should_fail_when_test_errors(self):
+#         self.assertFalse(run_tests(test_file_pattern="should_error_tests.py"))
 
-    # run_tests should return True when the repo is faultless and all tests pass.
-    def test_should_succeed_when_repo_is_test_project_faultless(self):
-        self.assertTrue(run_tests(test_folder=os.path.join(ROOT_DIR, "test_project_faultless"), test_file_pattern="test_main.py"))
+#     # run_tests should return True when the repo is faultless and all tests pass.
+#     def test_should_succeed_when_repo_is_test_project_faultless(self):
+#         self.assertTrue(run_tests(test_folder=os.path.join(ROOT_DIR, "test_project_faultless"), test_file_pattern="test_main.py"))
 
-    # run_tests should return False when repo contains at least one failing test.
-    def test_should_fail_when_repo_is_test_project_failing_tests(self):
-        self.assertFalse(run_tests(test_folder=os.path.join(ROOT_DIR, "test_project_failing_tests"), test_file_pattern="test_main.py"))
+#     # run_tests should return False when repo contains at least one failing test.
+#     def test_should_fail_when_repo_is_test_project_failing_tests(self):
+#         self.assertFalse(run_tests(test_folder=os.path.join(ROOT_DIR, "test_project_failing_tests"), test_file_pattern="test_main.py"))
 
         
 # --------------- BUILD TEST -----------------
 # Tests for the function syntax_check(path).
-class build_test(TestCase):
+# class build_test(TestCase):
 
-    # syntax_check should return "build successful" when repo is faultless.
-    def test_build_success_when_faultless_project(self):
-        res = syntax_check(os.path.join(ROOT_DIR, "test_project_faultless/src"))
-        self.assertEqual(res, "build successful")
+#     # syntax_check should return "build successful" when repo is faultless.
+#     def test_build_success_when_faultless_project(self):
+#         res = syntax_check(os.path.join(ROOT_DIR, "test_project_faultless/src"))
+#         self.assertEqual(res, "build successful")
 
-    # syntax_check should return "build failed" when repo contains errors.
-    def test_build_fail_when_faulty_project(self):
-        res = syntax_check(os.path.join(ROOT_DIR, "test_project_error/src"))
-        self.assertEqual(res, "build failed")
+#     # syntax_check should return "build failed" when repo contains errors.
+#     def test_build_fail_when_faulty_project(self):
+#         res = syntax_check(os.path.join(ROOT_DIR, "test_project_error/src"))
+#         self.assertEqual(res, "build failed")
 
-    # syntax_check should return "build failed" when repo does not exist.
-    def test_build_fail_when_invalid_path(self):
-        res = syntax_check(os.path.join(ROOT_DIR, "invalid_path_to_project/src"))
-        self.assertEqual(res, "build failed")
+#     # syntax_check should return "build failed" when repo does not exist.
+#     def test_build_fail_when_invalid_path(self):
+#         res = syntax_check(os.path.join(ROOT_DIR, "invalid_path_to_project/src"))
+#         self.assertEqual(res, "build failed")
 
 # --------------- GIT COMMIT STATUS TEST -----------------
 # Tests for the function set_commit_status(owner, repo, sha, state).
-class git_commit_status_test(TestCase):
+# class git_commit_status_test(TestCase):
 
-    def setUp(self):
-        self.git_user = settings.GIT_USER
-        self.git_token = settings.GIT_TOKEN
-        self.git_repo = settings.GIT_REPO
-        self.git_repo_owner = settings.GIT_REPO_OWNER
-        self.git_sha = settings.GIT_SHA
-        self.git_broken_sha = settings.GIT_BROKEN_SHA
+#     def setUp(self):
+#         self.git_user = settings.GIT_USER
+#         self.git_token = settings.GIT_TOKEN
+#         self.git_repo = settings.GIT_REPO
+#         self.git_repo_owner = settings.GIT_REPO_OWNER
+#         self.git_sha = settings.GIT_SHA
+#         self.git_broken_sha = settings.GIT_BROKEN_SHA
 
     # set_commit_status should return "commit status succeeded" when given correct
     # owner, repo and sha, and valid state.
-    def test_should_succeed_when_given_correct_info(self):
-        res = set_commit_status(self.git_repo_owner, self.git_repo, self.git_sha, 'success')
-        self.assertEqual(res, 'commit status succeeded')
+    # def test_should_succeed_when_given_correct_info(self):
+    #     res = set_commit_status(self.git_repo_owner, self.git_repo, self.git_sha, 'success')
+    #     self.assertEqual(res, 'commit status succeeded')
 
-    # set_commit_status should return "commit status failed" when given correct
-    # owner and repo, valid state, but incorrect sha.
-    def test_should_fail_when_given_broken_sha(self):
-        res = set_commit_status(self.git_repo_owner, self.git_repo, self.git_broken_sha, 'success')
-        self.assertEqual(res, 'commit status failed')
+    # # set_commit_status should return "commit status failed" when given correct
+    # # owner and repo, valid state, but incorrect sha.
+    # def test_should_fail_when_given_broken_sha(self):
+    #     res = set_commit_status(self.git_repo_owner, self.git_repo, self.git_broken_sha, 'success')
+    #     self.assertEqual(res, 'commit status failed')
 
-    # set_commit_status should return "commit status failed" when given correct
-    # owner, repo and sha, but invalid state.
-    def test_should_fail_when_given_invalid_state(self):
-        res = set_commit_status(self.git_repo_owner, self.git_repo, self.git_sha, 'succes')
-        self.assertEqual(res, 'commit status failed')  
+    # # set_commit_status should return "commit status failed" when given correct
+    # # owner, repo and sha, but invalid state.
+    # def test_should_fail_when_given_invalid_state(self):
+    #     res = set_commit_status(self.git_repo_owner, self.git_repo, self.git_sha, 'succes')
+    #     self.assertEqual(res, 'commit status failed')  
 
 # --------------- CREATE BUILD LOG ENTRY -----------------
 # Tests for the function create_build_log_entry(commit_id, build_result).

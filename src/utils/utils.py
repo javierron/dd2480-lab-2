@@ -30,6 +30,9 @@ def run_tests(test_folder=None, test_file_pattern=None, test_output_file=None):
     with open(test_output_file, "w") as f:
         testrunner = TextTestRunner(f)
         run = testrunner.run(tests)
+        print(run)
+        print(run.errors)
+        print(run.failures)
     return not bool(run.errors + run.failures)
 
 # Parses the json data received from the github webhook and retrieves
