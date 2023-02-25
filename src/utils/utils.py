@@ -9,6 +9,7 @@ from io import StringIO
 import shutil
 import requests
 import utils.settings as settings
+import subprocess
 
 # Finds and runs the tests in test_folder if they match pattern test_file_patterns
 # And logs it to test_output_file
@@ -25,15 +26,13 @@ def run_tests(test_folder=None, test_file_pattern=None, test_output_file=None):
     test_folder = sep.join(curdir + test_folder.split(sep)) if not os.path.isabs(test_folder) else test_folder
     test_output_file = sep.join(curdir + test_output_file.split(sep)) if not os.path.isabs(test_output_file) else test_output_file
 
-    testloader = TestLoader()
-    tests = testloader.discover(test_folder, test_file_pattern)
     with open(test_output_file, "w") as f:
-        testrunner = TextTestRunner(f)
-        run = testrunner.run(tests)
-        print(run)
-        print(run.errors)
-        print(run.failures)
-    return not bool(run.errors + run.failures)
+        bashCommand = ['bash', '-c', f'cd {test_folder} && python -m unittest -v unit_tests.py']
+        process = subprocess.Popen(bashCommand, stdout=subprocess.PIPE)
+        output, error = process.communicate()
+        print(output)
+        f.write(str(output))
+    return not bool(process.returncode)
 
 # Parses the json data received from the github webhook and retrieves
 # the fields we are interested in, which is currently clone_url, branch,
