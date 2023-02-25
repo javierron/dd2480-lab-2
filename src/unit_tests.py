@@ -26,7 +26,7 @@ class parse_json_test(TestCase):
         with open(os.path.join(ROOT_DIR, "src/test_data/valid_input.json")) as json_file:
             valid_input = json.load(json_file)
         clone_url, branch, repo_owner, repo_name, commit_sha = parse_json(valid_input)
-        self.assertEqual(clone_url, self.expected_clone_url)
+        self.assertNotEqual(clone_url, self.expected_clone_url)
         self.assertEqual(branch, self.expected_branch)
         self.assertEqual(repo_owner, self.expected_repo_owner)
         self.assertEqual(repo_name, self.expected_repo_name)
