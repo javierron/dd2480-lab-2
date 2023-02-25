@@ -1,4 +1,5 @@
 # DD2480 - LAB 2, Continuous Integration
+sfsdf
 
 ## A small continuous integration CI server
 This server was made to solve lab 2 Continuous Integration in the course DD2480 at KTH. It's a small CI server that only includes some core features of continuous integration.
